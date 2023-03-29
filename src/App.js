@@ -1,15 +1,9 @@
 import React from 'react';
-import {SafeAreaView, StatusBar, StyleSheet, Text} from 'react-native';
+import {StyleSheet} from 'react-native';
+import {SplashScreen} from './pages';
 
 const App = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <Text>Hello Food Market App</Text>
-      </SafeAreaView>
-    </>
-  );
+  return <SplashScreen />;
 };
 
 const styles = StyleSheet.create({});
