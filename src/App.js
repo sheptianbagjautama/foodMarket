@@ -1,9 +1,14 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {SplashScreen} from './pages';
+import {NavigationContainer} from '@react-navigation/native';
 
 const App = () => {
-  return <SplashScreen />;
+  return (
+    <NavigationContainer>
+      <SplashScreen />
+    </NavigationContainer>
+  );
 };
 
 const styles = StyleSheet.create({});
