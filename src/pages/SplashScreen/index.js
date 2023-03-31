@@ -1,8 +1,18 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 import {Logo} from '../../assets';
+import {useEffect} from 'react';
 
-const SplashScreen = () => {
+const SplashScreen = ({navigation}) => {
+  useEffect(
+    () => {
+      setTimeout(() => {
+        navigation.replace('SignIn');
+      }, 2000);
+    },
+    //diberikan array kosong supaya tidak di render terus menerus
+    [],
+  );
   return (
     <View
       style={{
