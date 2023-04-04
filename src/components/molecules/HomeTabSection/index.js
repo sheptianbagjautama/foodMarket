@@ -5,6 +5,7 @@ import {SceneMap, TabBar, TabView} from 'react-native-tab-view';
 import ItemListFood from '../ItemListFood';
 import {FoodDummy1, FoodDummy2, FoodDummy3, FoodDummy4} from '../../../assets';
 
+//UNTUK MENGCUSTOM TABBAR
 const renderTabBar = props => (
   <TabBar
     {...props}
@@ -13,7 +14,13 @@ const renderTabBar = props => (
       height: 3,
       width: 0.8,
     }}
-    style={{backgroundColor: 'white'}}
+    style={{
+      backgroundColor: 'white',
+      elevation: 0,
+      shadowOpacity: 0,
+      borderBottomColor: '#F2F2F2',
+      borderBottomWidth: 1,
+    }}
     tabStyle={{width: 'auto'}}
     renderLabel={({route, focused, color}) => (
       <Text
@@ -27,6 +34,7 @@ const renderTabBar = props => (
   />
 );
 
+//MEMBUAT PAGE TAB
 const NewTaste = () => {
   return (
     <ScrollView>
@@ -65,6 +73,7 @@ const Recommended = () => {
     </ScrollView>
   );
 };
+//END MEMBUAT TAB PAGE
 
 const initialLayout = {width: Dimensions.get('window').width};
 
@@ -89,6 +98,7 @@ const HomeTabSection = () => {
       renderScene={renderScene}
       onIndexChange={setIndex}
       initialLayout={initialLayout}
+      style={{backgroundColor: 'white'}}
     />
   );
 };
