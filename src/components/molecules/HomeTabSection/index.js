@@ -4,6 +4,7 @@ import {Dimensions, StyleSheet, Text, View, ScrollView} from 'react-native';
 import {SceneMap, TabBar, TabView} from 'react-native-tab-view';
 import ItemListFood from '../ItemListFood';
 import {FoodDummy1, FoodDummy2, FoodDummy3, FoodDummy4} from '../../../assets';
+import {useNavigation} from '@react-navigation/native';
 
 //UNTUK MENGCUSTOM TABBAR
 const renderTabBar = props => (
@@ -36,39 +37,81 @@ const renderTabBar = props => (
 
 //MEMBUAT PAGE TAB
 const NewTaste = () => {
+  //Karena level nya komponent bukan page, maka kita harus menggunakan useNavigation()
+  const navigation = useNavigation();
   return (
     <ScrollView>
       <View style={{paddingTop: 8}}>
-        <ItemListFood image={FoodDummy1} />
-        <ItemListFood image={FoodDummy2} />
-        <ItemListFood image={FoodDummy3} />
-        <ItemListFood image={FoodDummy4} />
+        <ItemListFood
+          image={FoodDummy1}
+          onPress={() => navigation.navigate('FoodDetail')}
+        />
+        <ItemListFood
+          image={FoodDummy2}
+          onPress={() => navigation.navigate('FoodDetail')}
+        />
+        <ItemListFood
+          image={FoodDummy3}
+          onPress={() => navigation.navigate('FoodDetail')}
+        />
+        <ItemListFood
+          image={FoodDummy4}
+          onPress={() => navigation.navigate('FoodDetail')}
+        />
       </View>
     </ScrollView>
   );
 };
 
 const Popular = () => {
+  //Karena level nya komponent bukan page, maka kita harus menggunakan useNavigation()
+  const navigation = useNavigation();
   return (
     <ScrollView>
       <View style={{paddingTop: 8}}>
-        <ItemListFood image={FoodDummy4} />
-        <ItemListFood image={FoodDummy3} />
-        <ItemListFood image={FoodDummy2} />
-        <ItemListFood image={FoodDummy1} />
+        <ItemListFood
+          image={FoodDummy4}
+          onPress={() => navigation.navigate('FoodDetail')}
+        />
+        <ItemListFood
+          image={FoodDummy3}
+          onPress={() => navigation.navigate('FoodDetail')}
+        />
+        <ItemListFood
+          image={FoodDummy2}
+          onPress={() => navigation.navigate('FoodDetail')}
+        />
+        <ItemListFood
+          image={FoodDummy1}
+          onPress={() => navigation.navigate('FoodDetail')}
+        />
       </View>
     </ScrollView>
   );
 };
 
 const Recommended = () => {
+  //Karena level nya komponent bukan page, maka kita harus menggunakan useNavigation()
+  const navigation = useNavigation();
   return (
     <ScrollView>
       <View style={{paddingTop: 8}}>
-        <ItemListFood image={FoodDummy3} />
-        <ItemListFood image={FoodDummy1} />
-        <ItemListFood image={FoodDummy4} />
-        <ItemListFood image={FoodDummy2} />
+        <ItemListFood
+          image={FoodDummy3}
+          onPress={() => navigation.navigate('FoodDetail')}
+        />
+        <ItemListFood
+          image={FoodDummy1}
+          onPress={() => navigation.navigate('FoodDetail')}
+        />
+        <ItemListFood
+          image={FoodDummy4}
+          onPress={() => navigation.navigate('FoodDetail')}
+        />
+        <ItemListFood
+          image={FoodDummy2}
+          onPress={() => navigation.navigate('FoodDetail')}
+        />
       </View>
     </ScrollView>
   );
