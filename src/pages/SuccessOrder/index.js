@@ -3,7 +3,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import {ISuccesOrder} from '../../assets';
 import {Button, Gap} from '../../components';
 
-const SuccessOrder = () => {
+const SuccessOrder = ({navigation}) => {
   return (
     <View style={styles.page}>
       <ISuccesOrder />
@@ -23,7 +23,8 @@ const SuccessOrder = () => {
       <View style={styles.buttonContainer}>
         <Button
           text="View My Order"
-          onPress={() => navigation.replace('MainApp')}
+          //Untuk masuk ke tab/bottom navigator page menggunakan options screen lalu pilih page
+          onPress={() => navigation.replace('MainApp', {screen: 'Order'})}
           color="#8D92A3"
           textColor="white"
         />
@@ -39,6 +40,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'white',
   },
   title: {
     fontFamily: 'Poppins-Regular',
