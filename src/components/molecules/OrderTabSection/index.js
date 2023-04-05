@@ -36,129 +36,100 @@ const renderTabBar = props => (
 );
 
 //MEMBUAT PAGE TAB
-const NewTaste = () => {
+const InProgress = () => {
   //Karena level nya komponent bukan page, maka kita harus menggunakan useNavigation()
   const navigation = useNavigation();
   return (
     <ScrollView>
       <View style={{paddingTop: 8, paddingHorizontal: 24}}>
         <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
+          rating={3}
           image={FoodDummy1}
           onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
+          type="in-progress"
+          items={3}
+          price={'2.000.000'}
+          name="Sop Bumil"
         />
         <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
+          rating={3}
           image={FoodDummy2}
           onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
+          type="in-progress"
+          items={3}
+          price={'2.000.000'}
+          name="Sop Bumil"
         />
         <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
+          rating={3}
           image={FoodDummy3}
           onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
+          type="in-progress"
+          items={3}
+          price={'2.000.000'}
+          name="Sop Bumil"
         />
         <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
+          rating={3}
           image={FoodDummy4}
           onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
+          type="in-progress"
+          items={3}
+          price={'2.000.000'}
+          name="Sop Bumil"
         />
       </View>
     </ScrollView>
   );
 };
 
-const Popular = () => {
+const PastOrder = () => {
   //Karena level nya komponent bukan page, maka kita harus menggunakan useNavigation()
   const navigation = useNavigation();
   return (
     <ScrollView>
       <View style={{paddingTop: 8, paddingHorizontal: 24}}>
         <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
+          rating={3}
           image={FoodDummy4}
           onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
+          type="past-orders"
+          items={3}
+          price={'2.000.000'}
+          name="Sop Bumil"
+          date="Jun 12, 14:00"
         />
         <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
+          rating={3}
           image={FoodDummy3}
           onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
+          type="past-orders"
+          items={3}
+          price={'2.000.000'}
+          name="Sop Bumil"
+          date="Jun 12, 14:00"
+          status="Cancel"
         />
         <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
+          rating={3}
           image={FoodDummy2}
           onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
+          type="past-orders"
+          items={3}
+          price={'2.000.000'}
+          name="Sop Bumil"
+          date="Jun 12, 14:00"
         />
         <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
+          rating={3}
           image={FoodDummy1}
           onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
-        />
-      </View>
-    </ScrollView>
-  );
-};
-
-const Recommended = () => {
-  //Karena level nya komponent bukan page, maka kita harus menggunakan useNavigation()
-  const navigation = useNavigation();
-  return (
-    <ScrollView>
-      <View style={{paddingTop: 8, paddingHorizontal: 24}}>
-        <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
-          image={FoodDummy3}
-          onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
-        />
-        <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
-          image={FoodDummy1}
-          onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
-        />
-        <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
-          image={FoodDummy4}
-          onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
-        />
-        <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
-          image={FoodDummy2}
-          onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
+          type="past-orders"
+          items={3}
+          price={'2.000.000'}
+          name="Sop Bumil"
+          date="Jun 12, 14:00"
+          status="Cancel"
         />
       </View>
     </ScrollView>
@@ -168,18 +139,16 @@ const Recommended = () => {
 
 const initialLayout = {width: Dimensions.get('window').width};
 
-const HomeTabSection = () => {
+const OrderTabSection = () => {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
-    {key: '1', title: 'New Taste'},
-    {key: '2', title: 'Popular'},
-    {key: '3', title: 'Recommended'},
+    {key: '1', title: 'In Progress'},
+    {key: '2', title: 'Past Orders'},
   ]);
 
   const renderScene = SceneMap({
-    1: NewTaste,
-    2: Popular,
-    3: Recommended,
+    1: InProgress,
+    2: PastOrder,
   });
 
   return (
@@ -194,6 +163,6 @@ const HomeTabSection = () => {
   );
 };
 
-export default HomeTabSection;
+export default OrderTabSection;
 
 const styles = StyleSheet.create({});
