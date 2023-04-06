@@ -1,11 +1,18 @@
 import {StyleSheet, Text, View, TextInput as TextInputRN} from 'react-native';
 import React from 'react';
 
-const TextInput = ({label, placeholder}) => {
+//...restProps -> ini adalah sisa props selain label & place holder akan dimasukan ke semua ke restprops ini
+//contoh jika kita membuat value="" atau onpress di parent/yg menggunakan component ini maka itu dianggap sebagai sisa props
+
+const TextInput = ({label, placeholder, ...restProps}) => {
   return (
     <View>
       <Text style={styles.label}>{label}</Text>
-      <TextInputRN style={styles.input} placeholder={placeholder} />
+      <TextInputRN
+        style={styles.input}
+        placeholder={placeholder}
+        {...restProps}
+      />
     </View>
   );
 };
