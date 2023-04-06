@@ -2,6 +2,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import {Button, Gap, Header, TextInput} from '../../components';
 import {useForm} from '../../utils';
+import axios from 'axios';
 
 const SignIn = ({navigation}) => {
   // const [email, setEmail] = useState('');
@@ -14,6 +15,14 @@ const SignIn = ({navigation}) => {
 
   const onSubmit = () => {
     console.log('form: ', form);
+    axios
+      .post('http://735e-36-79-190-161.ngrok.io/api/login', form)
+      .then(res => {
+        console.log('success', res);
+      })
+      .catch(er => {
+        console.log('error', err);
+      });
   };
 
   return (
