@@ -1,10 +1,10 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import axios from 'axios';
 import React from 'react';
+import {ScrollView, StyleSheet, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {Button, Gap, Header, Select, TextInput} from '../../components';
 import {useForm} from '../../utils';
-import {useDispatch, useSelector} from 'react-redux';
-import {setAddress} from '../../redux/reducer/registerSlice';
-import axios from 'axios';
+import {showMessage} from 'react-native-flash-message';
 
 const SignUpAddress = ({navigation}) => {
   const [form, setForm] = useForm({
@@ -28,11 +28,21 @@ const SignUpAddress = ({navigation}) => {
       .post(`http://c7e0-125-164-22-11.ngrok-free.app/api/register`, data)
       .then(res => {
         console.log('data success', res.data);
+        showToast('Register Success', 'success');
         navigation.replace('SuccessSignUp');
       })
       .catch(err => {
-        console.log('sign up error: ', err);
+        console.log('sign up error: ', err.response.data.message);
+        showToast(err?.response?.data?.message);
       });
+  };
+
+  const showToast = (message, type) => {
+    showMessage({
+      message,
+      type: type === 'success' ? 'success' : 'danger',
+      backgroundColor: type === 'success' ? '#1ABC9C' : '#D9435E',
+    });
   };
 
   return (
