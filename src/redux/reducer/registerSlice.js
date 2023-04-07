@@ -5,10 +5,6 @@ const initGlobalState = {
   email: '',
   password: '',
   password_confirmation: '',
-  address: '',
-  city: '',
-  houseNumber: '',
-  phoneNumber: '',
 };
 
 const registerSlice = createSlice({
@@ -16,16 +12,11 @@ const registerSlice = createSlice({
   initialState: initGlobalState,
   reducers: {
     setRegister(state, action) {
-      state.name = action.value.name;
-      state.email = action.value.email;
-      state.password = action.value.password;
-      state.password_confirmation = action.value.password_confirmation;
-    },
-    setAddress(state, action) {
-      state.address = action.value.address;
-      state.city = action.value.city;
-      state.houseNumber = action.value.houseNumber;
-      state.phoneNumber = action.value.phoneNumber;
+      console.log('action', action);
+      state.name = action.payload.name;
+      state.email = action.payload.email;
+      state.password = action.payload.password;
+      state.password_confirmation = action.payload.password;
     },
   },
 });
