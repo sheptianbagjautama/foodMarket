@@ -4,6 +4,7 @@ import {Button, Gap, Header, Select, TextInput} from '../../components';
 import {useForm} from '../../utils';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAddress} from '../../redux/reducer/registerSlice';
+import axios from 'axios';
 
 const SignUpAddress = ({navigation}) => {
   const [form, setForm] = useForm({
@@ -23,7 +24,15 @@ const SignUpAddress = ({navigation}) => {
     };
 
     console.log('data Register : ', data);
-    // navigation.replace('SuccessSignUp');
+    axios
+      .post(`http://c7e0-125-164-22-11.ngrok-free.app/api/register`, data)
+      .then(res => {
+        console.log('data success', res.data);
+        navigation.replace('SuccessSignUp');
+      })
+      .catch(err => {
+        console.log('sign up error: ', err);
+      });
   };
 
   return (
