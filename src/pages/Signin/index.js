@@ -50,7 +50,7 @@ const SignIn = ({navigation}) => {
           text="Create New Account"
           color="#8D92A3"
           textColor="white"
-          onPress={() => navigation.naviget('SignUp')}
+          onPress={() => navigation.navigate('SignUp')}
         />
       </View>
     </View>
