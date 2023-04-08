@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Button, Gap, Header, Select, TextInput} from '../../components';
 import {useForm} from '../../utils';
 import {showMessage} from 'react-native-flash-message';
+import {setLoading} from '../../redux/reducer/globalSlice';
 
 const SignUpAddress = ({navigation}) => {
   const [form, setForm] = useForm({
@@ -24,14 +25,19 @@ const SignUpAddress = ({navigation}) => {
     };
 
     console.log('data Register : ', data);
+
+    dispatch(setLoading(true));
+
     axios
-      .post(`http://c7e0-125-164-22-11.ngrok-free.app/api/register`, data)
+      .post(`http://bfee-125-164-18-185.ngrok-free.app/api/register`, data)
       .then(res => {
         console.log('data success', res.data);
+        dispatch(setLoading(false));
         showToast('Register Success', 'success');
         navigation.replace('SuccessSignUp');
       })
       .catch(err => {
+        dispatch(setLoading(false));
         console.log('sign up error: ', err.response.data.message);
         showToast(err?.response?.data?.message);
       });
