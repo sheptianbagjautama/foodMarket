@@ -1,3 +1,4 @@
+import React, {useState} from 'react';
 import {
   Image,
   ScrollView,
@@ -6,12 +7,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
-import {Button, Gap, Header, TextInput} from '../../components';
-import {useDispatch, useSelector} from 'react-redux';
-import {showMessage, useForm} from '../../utils';
-import {setRegister} from '../../redux/reducer/registerSlice';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {useDispatch} from 'react-redux';
+import {Button, Gap, Header, TextInput} from '../../components';
+import {setUploadStatus, setUploadPhoto} from '../../redux/reducer/photoSlice';
+import {setRegister} from '../../redux/reducer/registerSlice';
+import {showMessage, useForm} from '../../utils';
 
 const SignUp = ({navigation}) => {
   const [form, setForm] = useForm({
@@ -35,7 +36,6 @@ const SignUp = ({navigation}) => {
         quality: 0.5,
         maxWidth: 200,
         maxHeight: 200,
-        saveToPhotos: true,
       },
       response => {
         console.log('response = ', response);
@@ -52,6 +52,8 @@ const SignUp = ({navigation}) => {
           };
 
           setPhoto(source);
+          dispatch(setUploadPhoto(dataImage));
+          dispatch(setUploadStatus(true));
         }
       },
     );

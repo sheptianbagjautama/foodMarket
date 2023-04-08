@@ -3,8 +3,7 @@ import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Button, Gap, Header, Select, TextInput} from '../../components';
-import {useForm} from '../../utils';
-import {showMessage} from 'react-native-flash-message';
+import {useForm, showMessage} from '../../utils';
 import {setLoading} from '../../redux/reducer/globalSlice';
 
 const SignUpAddress = ({navigation}) => {
@@ -16,7 +15,7 @@ const SignUpAddress = ({navigation}) => {
   });
 
   const dispatch = useDispatch();
-  const registerReducer = useSelector(state => state.registerReducer);
+  const {registerReducer, photoReducer} = useSelector(state => state);
 
   const onSubmit = () => {
     const data = {
@@ -28,27 +27,52 @@ const SignUpAddress = ({navigation}) => {
 
     dispatch(setLoading(true));
 
+    console.log('photoReducer', photoReducer);
+
     axios
-      .post(`http://bfee-125-164-18-185.ngrok-free.app/api/register`, data)
+      .post(`http://eeb1-125-164-19-54.ngrok-free.app/api/register`, data)
       .then(res => {
         console.log('data success', res.data);
+
+        console.log('photoReducer', photoReducer);
+
+        console.log('imageForm', photoReducer);
+
+        if (photoReducer.isUploadPhoto) {
+          const photoForUpload = new FormData();
+          photoForUpload.append('file', photoReducer);
+          axios
+            .post(
+              `http://eeb1-125-164-19-54.ngrok-free.app/api/user/photo`,
+              photoForUpload,
+              {
+                headers: {
+                  Authorization: `${res.data.data.token_type} ${res.data.data.access_token}`,
+                  // Authorization: `Bearer 28|CsBRylEA0ugV91NNqxG5d1puCcS8IT7pjfNTaMLC`,
+                  'Content-Type': 'multipart/form-data',
+                },
+              },
+            )
+            .then(resUpload => {
+              console.log('success upload: ', resUpload);
+              dispatch(setLoading(false));
+            })
+            .catch(err => {
+              console.log('err', err);
+              showMessage('Upload photo tidak berhasil');
+              dispatch(setLoading(false));
+            });
+        }
+
         dispatch(setLoading(false));
-        showToast('Register Success', 'success');
+        showMessage('Register Success', 'success');
         navigation.replace('SuccessSignUp');
       })
       .catch(err => {
         dispatch(setLoading(false));
         console.log('sign up error: ', err.response.data.message);
-        showToast(err?.response?.data?.message);
+        showMessage(err?.response?.data?.message);
       });
-  };
-
-  const showToast = (message, type) => {
-    showMessage({
-      message,
-      type: type === 'success' ? 'success' : 'danger',
-      backgroundColor: type === 'success' ? '#1ABC9C' : '#D9435E',
-    });
   };
 
   return (
