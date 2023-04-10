@@ -35,7 +35,6 @@ const SignUpAddress = ({navigation}) => {
         const token = `${res.data.data.token_type} ${res.data.data.access_token}`;
         const profile = res.data.data.user;
 
-        storeData('userProfile', profile);
         storeData('token', {
           value: token,
         });
@@ -50,14 +49,22 @@ const SignUpAddress = ({navigation}) => {
                 'Content-Type': 'multipart/form-data',
               },
             })
+            .then(resUpload => {
+              profile.profile_photo_url = `http://foodmarket-backend.test/storage/${resUpload.data.data[0]}`;
+              storeData('userProfile', profile);
+              navigation.reset({index: 0, routes: [{name: 'SuccessSignUp'}]});
+            })
             .catch(err => {
               showMessage('Upload photo tidak berhasil');
               dispatch(setLoading(false));
+              navigation.reset({index: 0, routes: [{name: 'SuccessSignUp'}]});
             });
+        } else {
+          storeData('userProfile', profile);
+          navigation.reset({index: 0, routes: [{name: 'SuccessSignUp'}]});
         }
 
         dispatch(setLoading(false));
-        navigation.replace('SuccessSignUp');
       })
       .catch(err => {
         dispatch(setLoading(false));
@@ -72,7 +79,7 @@ const SignUpAddress = ({navigation}) => {
         <Header
           title="Sign Up Address"
           subTitle="Make sure it’s valid"
-          onBack={() => {}}
+          onBack={() => navigation.goBack()}
         />
         <View style={styles.container}>
           <TextInput
