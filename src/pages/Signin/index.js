@@ -1,11 +1,11 @@
 import axios from 'axios';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import {useDispatch} from 'react-redux';
 import {Button, Gap, Header, TextInput} from '../../components';
 import {setLoading} from '../../redux/reducer/globalSlice';
-import {storeData, useForm} from '../../utils';
+import {getData, storeData, useForm} from '../../utils';
 
 const API_HOST = {
   url: 'http://e02c-2001-448a-304a-1613-bde3-8305-ec50-b8b0.ngrok-free.app/api',
