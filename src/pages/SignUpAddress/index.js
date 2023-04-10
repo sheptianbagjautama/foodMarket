@@ -3,8 +3,12 @@ import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Button, Gap, Header, Select, TextInput} from '../../components';
-import {useForm, showMessage} from '../../utils';
 import {setLoading} from '../../redux/reducer/globalSlice';
+import {showMessage, storeData, useForm} from '../../utils';
+
+const API_HOST = {
+  url: 'http://e02c-2001-448a-304a-1613-bde3-8305-ec50-b8b0.ngrok-free.app/api',
+};
 
 const SignUpAddress = ({navigation}) => {
   const [form, setForm] = useForm({
@@ -23,49 +27,36 @@ const SignUpAddress = ({navigation}) => {
       ...registerReducer,
     };
 
-    console.log('data Register : ', data);
-
     dispatch(setLoading(true));
 
-    console.log('photoReducer', photoReducer);
-
     axios
-      .post(`http://eeb1-125-164-19-54.ngrok-free.app/api/register`, data)
+      .post(`${API_HOST.url}/register`, data)
       .then(res => {
-        console.log('data success', res.data);
+        const token = `${res.data.data.token_type} ${res.data.data.access_token}`;
+        const profile = res.data.data.user;
 
-        console.log('photoReducer', photoReducer);
-
-        console.log('imageForm', photoReducer);
+        storeData('userProfile', profile);
+        storeData('token', {
+          value: token,
+        });
 
         if (photoReducer.isUploadPhoto) {
           const photoForUpload = new FormData();
           photoForUpload.append('file', photoReducer);
           axios
-            .post(
-              `http://eeb1-125-164-19-54.ngrok-free.app/api/user/photo`,
-              photoForUpload,
-              {
-                headers: {
-                  Authorization: `${res.data.data.token_type} ${res.data.data.access_token}`,
-                  // Authorization: `Bearer 28|CsBRylEA0ugV91NNqxG5d1puCcS8IT7pjfNTaMLC`,
-                  'Content-Type': 'multipart/form-data',
-                },
+            .post(`${API_HOST.url}/user/photo`, photoForUpload, {
+              headers: {
+                Authorization: token,
+                'Content-Type': 'multipart/form-data',
               },
-            )
-            .then(resUpload => {
-              console.log('success upload: ', resUpload);
-              dispatch(setLoading(false));
             })
             .catch(err => {
-              console.log('err', err);
               showMessage('Upload photo tidak berhasil');
               dispatch(setLoading(false));
             });
         }
 
         dispatch(setLoading(false));
-        showMessage('Register Success', 'success');
         navigation.replace('SuccessSignUp');
       })
       .catch(err => {
