@@ -68,7 +68,6 @@ const SignUpAddress = ({navigation}) => {
       })
       .catch(err => {
         dispatch(setLoading(false));
-        console.log('sign up error: ', err.response.data.message);
         showMessage(err?.response?.data?.message);
       });
   };

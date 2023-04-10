@@ -15,7 +15,6 @@ const globalSlice = createSlice({
       state.message = action.payload.message;
     },
     setLoading(state, action) {
-      console.log('action', action);
       state.isLoading = action.payload;
     },
   },

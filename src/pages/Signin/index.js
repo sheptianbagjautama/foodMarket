@@ -1,8 +1,15 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
-import {Button, Gap, Header, TextInput} from '../../components';
-import {useForm} from '../../utils';
 import axios from 'axios';
+import React from 'react';
+import {StyleSheet, View} from 'react-native';
+import {showMessage} from 'react-native-flash-message';
+import {useDispatch} from 'react-redux';
+import {Button, Gap, Header, TextInput} from '../../components';
+import {setLoading} from '../../redux/reducer/globalSlice';
+import {storeData, useForm} from '../../utils';
+
+const API_HOST = {
+  url: 'http://e02c-2001-448a-304a-1613-bde3-8305-ec50-b8b0.ngrok-free.app/api',
+};
 
 const SignIn = ({navigation}) => {
   const [form, setForm] = useForm({
@@ -10,15 +17,23 @@ const SignIn = ({navigation}) => {
     password: '',
   });
 
+  const dispatch = useDispatch();
+
   const onSubmit = () => {
-    console.log('form: ', form);
+    dispatch(setLoading(true));
     axios
-      .post('http://735e-36-79-190-161.ngrok.io/api/login', form)
+      .post(`${API_HOST.url}/login`, form)
       .then(res => {
-        console.log('success', res);
+        const token = `${res.data.data.token_type} ${res.data.data.access_token}`;
+        const profile = res.data.data.user;
+        dispatch(setLoading(false));
+        storeData('token', {value: token});
+        storeData('userProfile', profile);
+        navigation.reset({index: 0, routes: [{name: 'MainApp'}]});
       })
-      .catch(er => {
-        console.log('error', err);
+      .catch(err => {
+        dispatch(setLoading(false));
+        showMessage(err?.response?.data?.data?.message);
       });
   };
 
