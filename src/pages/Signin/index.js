@@ -6,10 +6,7 @@ import {useDispatch} from 'react-redux';
 import {Button, Gap, Header, TextInput} from '../../components';
 import {setLoading} from '../../redux/reducer/globalSlice';
 import {getData, storeData, useForm} from '../../utils';
-
-const API_HOST = {
-  url: 'http://e02c-2001-448a-304a-1613-bde3-8305-ec50-b8b0.ngrok-free.app/api',
-};
+import {API_HOST} from '../../config';
 
 const SignIn = ({navigation}) => {
   const [form, setForm] = useForm({

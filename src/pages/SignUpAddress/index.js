@@ -5,10 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Button, Gap, Header, Select, TextInput} from '../../components';
 import {setLoading} from '../../redux/reducer/globalSlice';
 import {showMessage, storeData, useForm} from '../../utils';
-
-const API_HOST = {
-  url: 'http://e02c-2001-448a-304a-1613-bde3-8305-ec50-b8b0.ngrok-free.app/api',
-};
+import {API_HOST} from '../../config';
 
 const SignUpAddress = ({navigation}) => {
   const [form, setForm] = useForm({
@@ -50,7 +47,7 @@ const SignUpAddress = ({navigation}) => {
               },
             })
             .then(resUpload => {
-              profile.profile_photo_url = `http://foodmarket-backend.test/storage/${resUpload.data.data[0]}`;
+              profile.profile_photo_url = `http://4e3c-125-164-18-185.ngrok-free.app/storage/${resUpload.data.data[0]}`;
               storeData('userProfile', profile);
               navigation.reset({index: 0, routes: [{name: 'SuccessSignUp'}]});
             })
