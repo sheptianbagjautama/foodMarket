@@ -1,3 +1,4 @@
 export const API_HOST = {
-  url: 'http://4e3c-125-164-18-185.ngrok-free.app/api',
+  url: 'https://355d-125-164-20-16.ngrok-free.app/api',
+  base_url: 'https://355d-125-164-20-16.ngrok-free.app',
 };

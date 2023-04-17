@@ -47,7 +47,7 @@ const SignUpAddress = ({navigation}) => {
               },
             })
             .then(resUpload => {
-              profile.profile_photo_url = `http://4e3c-125-164-18-185.ngrok-free.app/storage/${resUpload.data.data[0]}`;
+              profile.profile_photo_url = `${API_HOST.url}/storage/${resUpload.data.data[0]}`;
               storeData('userProfile', profile);
               navigation.reset({index: 0, routes: [{name: 'SuccessSignUp'}]});
             })

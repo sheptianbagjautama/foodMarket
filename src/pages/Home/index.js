@@ -5,7 +5,12 @@ import {FoodCard, Gap, HomeProfile, HomeTabSection} from '../../components';
 import {useDispatch, useSelector} from 'react-redux';
 import axios from 'axios';
 import {API_HOST} from '../../config';
-import {setFood} from '../../redux/reducer/homeSlice';
+import {
+  setFood,
+  setNewTaste,
+  setPopular,
+  setRecommended,
+} from '../../redux/reducer/homeSlice';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -27,6 +32,26 @@ const Home = () => {
       });
   };
 
+  // const getFoodDataByTypes = types => {
+  //   axios
+  //     .get(`${API_HOST.url}/food?types=${types}`)
+  //     .then(res => {
+  //       // console.log('res: ', res.data.data.data);
+  //       if (types === 'new_taste') {
+  //         dispatch(setNewTaste(res.data.data.data));
+  //       }
+  //       if (types === 'popular') {
+  //         dispatch(setPopular(res.data.data.data));
+  //       }
+  //       if (types === 'recommended') {
+  //         dispatch(setRecommended(res.data.data.data));
+  //       }
+  //     })
+  //     .catch(err => {
+  //       console.log('err: ', err);
+  //     });
+  // };
+
   return (
     <View style={styles.page}>
       <HomeProfile />
@@ -35,10 +60,15 @@ const Home = () => {
           <View style={styles.foodCardContainer}>
             <Gap width={24} />
             {food.map(itemFood => {
+              let picture = itemFood.picturePath.replace(
+                'http://localhost:8000',
+                `${API_HOST.base_url}`,
+              );
               return (
                 <FoodCard
+                  key={itemFood.id}
                   name={itemFood.name}
-                  image={{uri: itemFood.picturePath}}
+                  image={{uri: picture}}
                   rating={itemFood.rate}
                 />
               );

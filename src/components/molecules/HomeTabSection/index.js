@@ -1,10 +1,18 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Dimensions, StyleSheet, Text, View, ScrollView} from 'react-native';
 
 import {SceneMap, TabBar, TabView} from 'react-native-tab-view';
 import ItemListFood from '../ItemListFood';
 import {FoodDummy1, FoodDummy2, FoodDummy3, FoodDummy4} from '../../../assets';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import axios from 'axios';
+import {API_HOST} from '../../../config';
+import {
+  setNewTaste,
+  setPopular,
+  setRecommended,
+} from '../../../redux/reducer/homeSlice';
 
 //UNTUK MENGCUSTOM TABBAR
 const renderTabBar = props => (
@@ -39,41 +47,55 @@ const renderTabBar = props => (
 const NewTaste = () => {
   //Karena level nya komponent bukan page, maka kita harus menggunakan useNavigation()
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const {newTaste} = useSelector(state => state.homeReducer);
+
+  const getFoodDataByTypes = types => {
+    axios
+      .get(`${API_HOST.url}/food?types=${types}`)
+      .then(res => {
+        // console.log('res: ', res.data.data.data);
+        if (types === 'new_food') {
+          dispatch(setNewTaste(res.data.data.data));
+        }
+        if (types === 'popular') {
+          dispatch(setPopular(res.data.data.data));
+        }
+        if (types === 'recommended') {
+          dispatch(setRecommended(res.data.data.data));
+        }
+      })
+      .catch(err => {
+        console.log('err: ', err);
+      });
+  };
+
+  useEffect(() => {
+    getFoodDataByTypes('new_food');
+  }, []);
+
   return (
     <ScrollView>
       <View style={{paddingTop: 8, paddingHorizontal: 24}}>
-        <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
-          image={FoodDummy1}
-          onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
-        />
-        <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
-          image={FoodDummy2}
-          onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
-        />
-        <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
-          image={FoodDummy3}
-          onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
-        />
-        <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
-          image={FoodDummy4}
-          onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
-        />
+        {newTaste.map(item => {
+          console.log('item', item);
+          let picture = item.picturePath.replace(
+            'http://localhost:8000',
+            `${API_HOST.base_url}`,
+          );
+
+          return (
+            <ItemListFood
+              key={item.id}
+              type="product"
+              name={item.name}
+              price={item.price}
+              rating={item.rate}
+              image={{uri: picture}}
+              onPress={() => navigation.navigate('FoodDetail')}
+            />
+          );
+        })}
       </View>
     </ScrollView>
   );
@@ -82,41 +104,55 @@ const NewTaste = () => {
 const Popular = () => {
   //Karena level nya komponent bukan page, maka kita harus menggunakan useNavigation()
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const {popular} = useSelector(state => state.homeReducer);
+
+  const getFoodDataByTypes = types => {
+    axios
+      .get(`${API_HOST.url}/food?types=${types}`)
+      .then(res => {
+        // console.log('res: ', res.data.data.data);
+        if (types === 'new_food') {
+          dispatch(setNewTaste(res.data.data.data));
+        }
+        if (types === 'popular') {
+          dispatch(setPopular(res.data.data.data));
+        }
+        if (types === 'recommended') {
+          dispatch(setRecommended(res.data.data.data));
+        }
+      })
+      .catch(err => {
+        console.log('err: ', err);
+      });
+  };
+
+  useEffect(() => {
+    getFoodDataByTypes('popular');
+  }, []);
+
   return (
     <ScrollView>
       <View style={{paddingTop: 8, paddingHorizontal: 24}}>
-        <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
-          image={FoodDummy4}
-          onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
-        />
-        <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
-          image={FoodDummy3}
-          onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
-        />
-        <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
-          image={FoodDummy2}
-          onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
-        />
-        <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
-          image={FoodDummy1}
-          onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
-        />
+        {popular.map(item => {
+          console.log('item', item);
+          let picture = item.picturePath.replace(
+            'http://localhost:8000',
+            `${API_HOST.base_url}`,
+          );
+
+          return (
+            <ItemListFood
+              key={item.id}
+              type="product"
+              name={item.name}
+              price={item.price}
+              rating={item.rate}
+              image={{uri: picture}}
+              onPress={() => navigation.navigate('FoodDetail')}
+            />
+          );
+        })}
       </View>
     </ScrollView>
   );
@@ -125,41 +161,55 @@ const Popular = () => {
 const Recommended = () => {
   //Karena level nya komponent bukan page, maka kita harus menggunakan useNavigation()
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const {recommended} = useSelector(state => state.homeReducer);
+
+  const getFoodDataByTypes = types => {
+    axios
+      .get(`${API_HOST.url}/food?types=${types}`)
+      .then(res => {
+        // console.log('res: ', res.data.data.data);
+        if (types === 'new_food') {
+          dispatch(setNewTaste(res.data.data.data));
+        }
+        if (types === 'popular') {
+          dispatch(setPopular(res.data.data.data));
+        }
+        if (types === 'recommended') {
+          dispatch(setRecommended(res.data.data.data));
+        }
+      })
+      .catch(err => {
+        console.log('err: ', err);
+      });
+  };
+
+  useEffect(() => {
+    getFoodDataByTypes('recommended');
+  }, []);
+
   return (
     <ScrollView>
       <View style={{paddingTop: 8, paddingHorizontal: 24}}>
-        <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
-          image={FoodDummy3}
-          onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
-        />
-        <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
-          image={FoodDummy1}
-          onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
-        />
-        <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
-          image={FoodDummy4}
-          onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
-        />
-        <ItemListFood
-          type="product"
-          name="Soup Bumil"
-          price="380.000"
-          image={FoodDummy2}
-          onPress={() => navigation.navigate('FoodDetail')}
-          rating={3}
-        />
+        {recommended.map(item => {
+          console.log('item', item);
+          let picture = item.picturePath.replace(
+            'http://localhost:8000',
+            `${API_HOST.base_url}`,
+          );
+
+          return (
+            <ItemListFood
+              key={item.id}
+              type="product"
+              name={item.name}
+              price={item.price}
+              rating={item.rate}
+              image={{uri: picture}}
+              onPress={() => navigation.navigate('FoodDetail')}
+            />
+          );
+        })}
       </View>
     </ScrollView>
   );
