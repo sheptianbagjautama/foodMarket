@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {FoodDummy1, FoodDummy2, FoodDummy3, FoodDummy4} from '../../assets';
 import {FoodCard, Gap, HomeProfile, HomeTabSection} from '../../components';
 import {useDispatch, useSelector} from 'react-redux';
@@ -12,7 +12,7 @@ import {
   setRecommended,
 } from '../../redux/reducer/homeSlice';
 
-const Home = () => {
+const Home = ({navigation}) => {
   const dispatch = useDispatch();
   const {food} = useSelector(state => state.homeReducer);
 
@@ -32,26 +32,6 @@ const Home = () => {
       });
   };
 
-  // const getFoodDataByTypes = types => {
-  //   axios
-  //     .get(`${API_HOST.url}/food?types=${types}`)
-  //     .then(res => {
-  //       // console.log('res: ', res.data.data.data);
-  //       if (types === 'new_taste') {
-  //         dispatch(setNewTaste(res.data.data.data));
-  //       }
-  //       if (types === 'popular') {
-  //         dispatch(setPopular(res.data.data.data));
-  //       }
-  //       if (types === 'recommended') {
-  //         dispatch(setRecommended(res.data.data.data));
-  //       }
-  //     })
-  //     .catch(err => {
-  //       console.log('err: ', err);
-  //     });
-  // };
-
   return (
     <View style={styles.page}>
       <HomeProfile />
@@ -70,6 +50,7 @@ const Home = () => {
                   name={itemFood.name}
                   image={{uri: picture}}
                   rating={itemFood.rate}
+                  onPress={() => navigation.navigate('FoodDetail', itemFood)}
                 />
               );
             })}
