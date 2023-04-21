@@ -12,7 +12,7 @@ import {API_HOST} from '../../config';
 import {getData} from '../../utils';
 
 const FoodDetail = ({navigation, route}) => {
-  const {name, picturePath, description, ingredients, rate, price} =
+  const {id, name, picturePath, description, ingredients, rate, price} =
     route.params;
   let picture = picturePath.replace(
     'http://127.0.0.1:8000',
@@ -40,6 +40,7 @@ const FoodDetail = ({navigation, route}) => {
 
     const data = {
       item: {
+        id: id,
         name: name,
         price: price,
         picturePath: picture,
