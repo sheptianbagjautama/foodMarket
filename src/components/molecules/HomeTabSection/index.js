@@ -1,18 +1,17 @@
-import React, {useEffect, useState} from 'react';
-import {Dimensions, StyleSheet, Text, View, ScrollView} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import {SceneMap, TabBar, TabView} from 'react-native-tab-view';
-import ItemListFood from '../ItemListFood';
-import {FoodDummy1, FoodDummy2, FoodDummy3, FoodDummy4} from '../../../assets';
-import {useNavigation} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-import {API_HOST} from '../../../config';
+import { SceneMap, TabBar, TabView } from 'react-native-tab-view';
+import { useDispatch, useSelector } from 'react-redux';
+import { API_HOST } from '../../../config';
 import {
   setNewTaste,
   setPopular,
   setRecommended,
 } from '../../../redux/reducer/homeSlice';
+import ItemListFood from '../ItemListFood';
 
 //UNTUK MENGCUSTOM TABBAR
 const renderTabBar = props => (
@@ -80,7 +79,7 @@ const NewTaste = () => {
         {newTaste.map(item => {
           console.log('item', item);
           let picture = item.picturePath.replace(
-            'http://localhost:8000',
+            'http://127.0.0.1:8000',
             `${API_HOST.base_url}`,
           );
 
@@ -137,7 +136,7 @@ const Popular = () => {
         {popular.map(item => {
           console.log('item', item);
           let picture = item.picturePath.replace(
-            'http://localhost:8000',
+            'http://127.0.0.1:8000',
             `${API_HOST.base_url}`,
           );
 
@@ -194,7 +193,7 @@ const Recommended = () => {
         {recommended.map(item => {
           console.log('item', item);
           let picture = item.picturePath.replace(
-            'http://localhost:8000',
+            'http://127.0.0.1:8000',
             `${API_HOST.base_url}`,
           );
 

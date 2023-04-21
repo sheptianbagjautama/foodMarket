@@ -41,8 +41,12 @@ const Home = ({navigation}) => {
             <Gap width={24} />
             {food.map(itemFood => {
               let picture = itemFood.picturePath.replace(
-                'http://localhost:8000',
+                'http://127.0.0.1:8000',
                 `${API_HOST.base_url}`,
+              );
+              console.log(
+                'file: index.js:47 ~ Home ~ itemFood.picturePath:',
+                itemFood.picturePath,
               );
               return (
                 <FoodCard

@@ -3,41 +3,47 @@ import React from 'react';
 import {Button, Gap, Header, ItemListFood, ItemValue} from '../../components';
 import {FoodDummy1} from '../../assets';
 
-const OrderSummary = ({navigation}) => {
+const OrderSummary = ({navigation, route}) => {
+  const {item, transaction, userProfile} = route.params;
   return (
     <ScrollView>
       <Header
         title="Payment"
         subTitle="You deserve better meal"
-        onBack={() => {}}
+        onBack={() => navigation.goBack()}
       />
       <View style={styles.content}>
         <Text style={styles.label}>Item Ordered</Text>
         <ItemListFood
           type="order-summary"
-          name="Soup Bumil"
-          price="380.000"
-          image={FoodDummy1}
-          items={14}
+          name={item.name}
+          price={item.price}
+          image={{uri: item.picturePath}}
+          items={transaction.totalItem}
         />
         <Text style={styles.label}>Details Transaction</Text>
-        <ItemValue label="Cherry Healthy" value="IDR 18.390.000" />
-        <ItemValue label="Driver" value="IDR 50.000" />
-        <ItemValue label="Tax 10%" value="IDR 1.800.390" />
+        <ItemValue
+          label="Cherry Healthy"
+          value={transaction.totalPrice}
+          type="currency"
+        />
+        <ItemValue label="Driver" value={transaction.driver} type="currency" />
+        <ItemValue label="Tax 10%" value={transaction.tax} type="currency" />
         <ItemValue
           label="Total Price"
-          value="IDR 390.803.000"
+          value={transaction.total}
           valueColor="#1ABC9C"
+          type="currency"
         />
       </View>
 
       <View style={styles.content}>
         <Text style={styles.label}>Deliver to:</Text>
-        <ItemValue label="Name" value="Sheptian Bagja Utama" />
-        <ItemValue label="Phone No." value="0822 0819 9688" />
-        <ItemValue label="Address" value="Setra Duta Palima" />
-        <ItemValue label="House No." value="A5 Hook" />
-        <ItemValue label="City" value="Bandung" />
+        <ItemValue label="Name" value={userProfile.name} />
+        <ItemValue label="Phone No." value={userProfile.phoneNumber} />
+        <ItemValue label="Address" value={userProfile.address} />
+        <ItemValue label="House No." value={userProfile.houseNumber} />
+        <ItemValue label="City" value={userProfile.city} />
       </View>
 
       <View style={styles.button}>
