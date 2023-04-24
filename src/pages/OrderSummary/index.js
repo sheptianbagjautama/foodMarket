@@ -16,16 +16,8 @@ import {API_HOST} from '../../config';
 
 const OrderSummary = ({navigation, route}) => {
   const {item, transaction, userProfile} = route.params;
-  const [token, setToken] = useState('');
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [paymentURL, setPaymentURL] = useState('https://google.com');
-
-  useEffect(() => {
-    getData('token').then(res => {
-      console.log('🚀 ~ file: index.js:12 ~ getData ~ res:', res);
-      setToken(res.value);
-    });
-  }, []);
 
   const onCheckout = () => {
     const data = {
@@ -35,32 +27,29 @@ const OrderSummary = ({navigation, route}) => {
       total: transaction.total,
       status: 'PENDING',
     };
-    console.log('🚀 ~ file: index.js:24 ~ onCheckout ~ data:', data);
 
-    axios
-      .post(`${API_HOST.url}/checkout`, data, {
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then(res => {
-        console.log('🚀 ~ file: index.js:34 ~ onCheckout ~ res:', res.data);
-        setIsPaymentOpen(true);
-        setPaymentURL(res.data.data.payment_url);
-      })
-      .catch(err => {
-        console.log('🚀 ~ file: index.js:38 ~ onCheckout ~ err:', err);
-      });
+    getData('token').then(resToken => {
+      axios
+        .post(`${API_HOST.url}/checkout`, data, {
+          headers: {
+            Authorization: resToken.value,
+          },
+        })
+        .then(res => {
+          setIsPaymentOpen(true);
+          setPaymentURL(res.data.data.payment_url);
+        })
+        .catch(err => {
+          console.log('err: ', err);
+        });
+    });
   };
 
   const onNavChange = state => {
-    //
-    console.log('nav : ', state);
-    const urlSuccess =
-      'https://3087-125-164-17-132.ngrok-free.app/midtrans/success?order_id=7&status_code=201&transaction_status=pending';
+    const urlSuccess = `${API_HOST.base_url}/midtrans/success?order_id=7&status_code=201&transaction_status=pending`;
     const titleWeb = 'Laravel';
     if (state.title === titleWeb) {
-      navigation.replace('SuccessOrder');
+      navigation.reset({index: 0, routes: [{name: 'SuccessOrder'}]});
     }
   };
 

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Dimensions, ScrollView, StyleSheet, Text, View} from 'react-native';
 
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-import { SceneMap, TabBar, TabView } from 'react-native-tab-view';
-import { useDispatch, useSelector } from 'react-redux';
-import { API_HOST } from '../../../config';
+import {SceneMap, TabBar, TabView} from 'react-native-tab-view';
+import {useDispatch, useSelector} from 'react-redux';
+import {API_HOST} from '../../../config';
 import {
   setNewTaste,
   setPopular,
@@ -53,7 +53,6 @@ const NewTaste = () => {
     axios
       .get(`${API_HOST.url}/food?types=${types}`)
       .then(res => {
-        // console.log('res: ', res.data.data.data);
         if (types === 'new_food') {
           dispatch(setNewTaste(res.data.data.data));
         }
@@ -77,7 +76,6 @@ const NewTaste = () => {
     <ScrollView>
       <View style={{paddingTop: 8, paddingHorizontal: 24}}>
         {newTaste.map(item => {
-          console.log('item', item);
           let picture = item.picturePath.replace(
             'http://127.0.0.1:8000',
             `${API_HOST.base_url}`,
@@ -110,7 +108,6 @@ const Popular = () => {
     axios
       .get(`${API_HOST.url}/food?types=${types}`)
       .then(res => {
-        // console.log('res: ', res.data.data.data);
         if (types === 'new_food') {
           dispatch(setNewTaste(res.data.data.data));
         }
@@ -134,7 +131,6 @@ const Popular = () => {
     <ScrollView>
       <View style={{paddingTop: 8, paddingHorizontal: 24}}>
         {popular.map(item => {
-          console.log('item', item);
           let picture = item.picturePath.replace(
             'http://127.0.0.1:8000',
             `${API_HOST.base_url}`,
@@ -167,7 +163,6 @@ const Recommended = () => {
     axios
       .get(`${API_HOST.url}/food?types=${types}`)
       .then(res => {
-        // console.log('res: ', res.data.data.data);
         if (types === 'new_food') {
           dispatch(setNewTaste(res.data.data.data));
         }
@@ -191,7 +186,6 @@ const Recommended = () => {
     <ScrollView>
       <View style={{paddingTop: 8, paddingHorizontal: 24}}>
         {recommended.map(item => {
-          console.log('item', item);
           let picture = item.picturePath.replace(
             'http://127.0.0.1:8000',
             `${API_HOST.base_url}`,

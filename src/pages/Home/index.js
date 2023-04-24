@@ -1,16 +1,10 @@
-import React, {useEffect} from 'react';
-import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
-import {FoodDummy1, FoodDummy2, FoodDummy3, FoodDummy4} from '../../assets';
-import {FoodCard, Gap, HomeProfile, HomeTabSection} from '../../components';
-import {useDispatch, useSelector} from 'react-redux';
 import axios from 'axios';
+import React, {useEffect} from 'react';
+import {ScrollView, StyleSheet, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {FoodCard, Gap, HomeProfile, HomeTabSection} from '../../components';
 import {API_HOST} from '../../config';
-import {
-  setFood,
-  setNewTaste,
-  setPopular,
-  setRecommended,
-} from '../../redux/reducer/homeSlice';
+import {setFood} from '../../redux/reducer/homeSlice';
 
 const Home = ({navigation}) => {
   const dispatch = useDispatch();
@@ -24,7 +18,6 @@ const Home = ({navigation}) => {
     axios
       .get(`${API_HOST.url}/food`)
       .then(res => {
-        // console.log('res: ', res.data.data.data);
         dispatch(setFood(res.data.data.data));
       })
       .catch(err => {
@@ -43,10 +36,6 @@ const Home = ({navigation}) => {
               let picture = itemFood.picturePath.replace(
                 'http://127.0.0.1:8000',
                 `${API_HOST.base_url}`,
-              );
-              console.log(
-                'file: index.js:47 ~ Home ~ itemFood.picturePath:',
-                itemFood.picturePath,
               );
               return (
                 <FoodCard

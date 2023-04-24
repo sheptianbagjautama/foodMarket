@@ -5,6 +5,7 @@ import {
   globalReducer,
   photoReducer,
   homeReducer,
+  orderReducer,
 } from './reducer';
 
 const store = configureStore({
@@ -13,6 +14,7 @@ const store = configureStore({
     globalReducer: globalReducer,
     photoReducer: photoReducer,
     homeReducer: homeReducer,
+    orderReducer: orderReducer,
   },
   middleware: [thunk],
 });

@@ -54,7 +54,6 @@ const FoodDetail = ({navigation, route}) => {
       },
       userProfile,
     };
-    console.log('🚀 ~ file: index.js:56 ~ onOrder ~ data:', data);
     navigation.navigate('OrderSummary', data);
   };
 

@@ -12,7 +12,6 @@ const registerSlice = createSlice({
   initialState: initGlobalState,
   reducers: {
     setRegister(state, action) {
-      console.log('action', action);
       state.name = action.payload.name;
       state.email = action.payload.email;
       state.password = action.payload.password;

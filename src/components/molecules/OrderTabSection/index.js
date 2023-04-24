@@ -1,10 +1,15 @@
-import React, {useState} from 'react';
-import {Dimensions, StyleSheet, Text, View, ScrollView} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Dimensions, ScrollView, StyleSheet, Text, View} from 'react-native';
 
-import {SceneMap, TabBar, TabView} from 'react-native-tab-view';
-import ItemListFood from '../ItemListFood';
-import {FoodDummy1, FoodDummy2, FoodDummy3, FoodDummy4} from '../../../assets';
 import {useNavigation} from '@react-navigation/native';
+import {SceneMap, TabBar, TabView} from 'react-native-tab-view';
+import {useDispatch, useSelector} from 'react-redux';
+import {FoodDummy1, FoodDummy3, FoodDummy4} from '../../../assets';
+import {setInProgress, setPastOrders} from '../../../redux/reducer/orderSlice';
+import {getData} from '../../../utils';
+import ItemListFood from '../ItemListFood';
+import axios from 'axios';
+import {API_HOST} from '../../../config';
 
 //UNTUK MENGCUSTOM TABBAR
 const renderTabBar = props => (
@@ -39,45 +44,72 @@ const renderTabBar = props => (
 const InProgress = () => {
   //Karena level nya komponent bukan page, maka kita harus menggunakan useNavigation()
   const navigation = useNavigation();
+
+  const dispatch = useDispatch();
+  const {inProgress} = useSelector(state => state.orderReducer);
+
+  useEffect(() => {
+    getInProgress();
+  }, []);
+
+  const getInProgress = () => {
+    getData('token').then(resToken => {
+      axios
+        .all([
+          axios.get(`${API_HOST.url}/transaction?status=PENDING`, {
+            headers: {
+              Authorization: resToken.value,
+            },
+          }),
+          axios.get(`${API_HOST.url}/transaction?status=SUCCESS`, {
+            headers: {
+              Authorization: resToken.value,
+            },
+          }),
+          axios.get(`${API_HOST.url}/transaction?status=ON_DELIVERY`, {
+            headers: {
+              Authorization: resToken.value,
+            },
+          }),
+        ])
+        .then(
+          axios.spread((res1, res2, res3) => {
+            console.log('get in progress 1', res1);
+            console.log('get in progress 2', res2);
+            console.log('get in progress 3', res3);
+            const pending = res1.data.data.data;
+            const success = res2.data.data.data;
+            const onDelivery = res3.data.data.data;
+            dispatch(setInProgress([...pending, ...success, ...onDelivery]));
+          }),
+        )
+        .catch(err => {
+          console.log('err get in progress: ', err);
+        });
+    });
+  };
+
   return (
     <ScrollView>
       <View style={{paddingTop: 8, paddingHorizontal: 24}}>
-        <ItemListFood
-          rating={3}
-          image={FoodDummy1}
-          onPress={() => navigation.navigate('OrderDetail')}
-          type="in-progress"
-          items={3}
-          price={'2.000.000'}
-          name="Sop Bumil"
-        />
-        <ItemListFood
-          rating={3}
-          image={FoodDummy2}
-          onPress={() => navigation.navigate('OrderDetail')}
-          type="in-progress"
-          items={3}
-          price={'2.000.000'}
-          name="Sop Bumil"
-        />
-        <ItemListFood
-          rating={3}
-          image={FoodDummy3}
-          onPress={() => navigation.navigate('OrderDetail')}
-          type="in-progress"
-          items={3}
-          price={'2.000.000'}
-          name="Sop Bumil"
-        />
-        <ItemListFood
-          rating={3}
-          image={FoodDummy4}
-          onPress={() => navigation.navigate('OrderDetail')}
-          type="in-progress"
-          items={3}
-          price={'2.000.000'}
-          name="Sop Bumil"
-        />
+        {inProgress.map(order => {
+          let picture = order.food.picturePath.replace(
+            'http://127.0.0.1:8000',
+            `${API_HOST.base_url}`,
+          );
+
+          return (
+            <ItemListFood
+              key={order.id}
+              image={{uri: picture}}
+              onPress={() => navigation.navigate('OrderDetail')}
+              type="in-progress"
+              items={order.quantity}
+              price={order.total}
+              name={order.food.name}
+            />
+          );
+        })}
       </View>
     </ScrollView>
   );
@@ -86,51 +118,63 @@ const InProgress = () => {
 const PastOrder = () => {
   //Karena level nya komponent bukan page, maka kita harus menggunakan useNavigation()
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const {pastOrders} = useSelector(state => state.orderReducer);
+
+  useEffect(() => {
+    getPastOrders();
+  }, []);
+
+  const getPastOrders = () => {
+    getData('token').then(resToken => {
+      axios
+        .all([
+          axios.get(`${API_HOST.url}/transaction?status=CANCELLED`, {
+            headers: {
+              Authorization: resToken.value,
+            },
+          }),
+          axios.get(`${API_HOST.url}/transaction?status=DELIVERED`, {
+            headers: {
+              Authorization: resToken.value,
+            },
+          }),
+        ])
+
+        .then(
+          axios.spread((res1, res2) => {
+            const canceled = res1.data.data.data;
+            const delivered = res2.data.data.data;
+            dispatch(setPastOrders([...canceled, ...delivered]));
+          }),
+        )
+        .catch(err => {
+          console.log('err get in progress: ', err);
+        });
+    });
+  };
   return (
     <ScrollView>
       <View style={{paddingTop: 8, paddingHorizontal: 24}}>
-        <ItemListFood
-          rating={3}
-          image={FoodDummy4}
-          onPress={() => navigation.navigate('OrderDetail')}
-          type="past-orders"
-          items={3}
-          price={'2.000.000'}
-          name="Sop Bumil"
-          date="Jun 12, 14:00"
-        />
-        <ItemListFood
-          rating={3}
-          image={FoodDummy3}
-          onPress={() => navigation.navigate('OrderDetail')}
-          type="past-orders"
-          items={3}
-          price={'2.000.000'}
-          name="Sop Bumil"
-          date="Jun 12, 14:00"
-          status="Cancel"
-        />
-        <ItemListFood
-          rating={3}
-          image={FoodDummy2}
-          onPress={() => navigation.navigate('OrderDetail')}
-          type="past-orders"
-          items={3}
-          price={'2.000.000'}
-          name="Sop Bumil"
-          date="Jun 12, 14:00"
-        />
-        <ItemListFood
-          rating={3}
-          image={FoodDummy1}
-          onPress={() => navigation.navigate('OrderDetail')}
-          type="past-orders"
-          items={3}
-          price={'2.000.000'}
-          name="Sop Bumil"
-          date="Jun 12, 14:00"
-          status="Cancel"
-        />
+        {pastOrders.map(order => {
+          let picture = order.food.picturePath.replace(
+            'http://127.0.0.1:8000',
+            `${API_HOST.base_url}`,
+          );
+          return (
+            <ItemListFood
+              key={order.id}
+              image={{uri: picture}}
+              onPress={() => navigation.navigate('OrderDetail')}
+              type="past-orders"
+              items={order.quantity}
+              price={order.total}
+              name={order.food.name}
+              date={order.created_at}
+              status={order.status}
+            />
+          );
+        })}
       </View>
     </ScrollView>
   );

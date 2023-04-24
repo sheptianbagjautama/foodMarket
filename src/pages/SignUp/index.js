@@ -38,13 +38,10 @@ const SignUp = ({navigation}) => {
         maxHeight: 200,
       },
       response => {
-        console.log('response = ', response);
-
         if (response.didCancel || response.errorCode) {
           showMessage('Anda tidak memilih photo');
         } else {
           const source = {uri: response.assets[0].uri};
-          console.log('source', source);
           const dataImage = {
             uri: response.assets[0].uri,
             type: response.assets[0].type,

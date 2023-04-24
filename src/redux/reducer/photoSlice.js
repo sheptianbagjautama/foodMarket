@@ -12,13 +12,11 @@ const photoSlice = createSlice({
   initialState: initGlobalState,
   reducers: {
     setUploadPhoto(state, action) {
-      console.log('setUploadPhoto', action);
       state.uri = action.payload.uri;
       state.type = action.payload.type;
       state.name = action.payload.name;
     },
     setUploadStatus(state, action) {
-      console.log('setUploadStatus', action);
       state.isUploadPhoto = action.payload;
     },
   },

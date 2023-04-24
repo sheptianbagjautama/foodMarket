@@ -10,7 +10,6 @@ const HomeProfile = () => {
 
   useEffect(() => {
     getData('userProfile').then(res => {
-      console.log('user profile', res);
       setPhoto({uri: res.profile_photo_url});
     });
   }, []);
