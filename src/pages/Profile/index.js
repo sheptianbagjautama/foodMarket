@@ -13,6 +13,7 @@ const Profile = () => {
       setUserProfile(res);
     });
   }, []);
+  console.log(userProfile);
 
   return (
     <View style={styles.page}>
